@@ -7,7 +7,7 @@ function addProductToCart(product) {
   const cartItems = getLocalStorage("so-cart") || [];
   // get cart arrary of items from local storage if null set empty array
   cartItems.push(product);
-  setLocalStorage("so-cart", product);
+  setLocalStorage("so-cart", cartItems);
 }
 // add to cart button event handler
 async function addToCartHandler(e) {
