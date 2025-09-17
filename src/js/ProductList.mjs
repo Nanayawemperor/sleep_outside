@@ -15,6 +15,9 @@ function productCardTemplate(product) {
 
 export default class ProductList {
   constructor(category, dataSource, listElement) {
+    // category: the product category (like "tents", "sleeping-bags", etc.)
+    // dataSource: an instance of your ProductData class
+    // listElement: the DOM element where the products will be rendered
     this.category = category;
     this.dataSource = dataSource;
     this.listElement = listElement;
@@ -27,7 +30,5 @@ export default class ProductList {
 
   renderList(list) {
     renderListWithTemplate(productCardTemplate, this.listElement, list);
-
   }
-
 }
