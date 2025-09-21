@@ -9,7 +9,7 @@
   </head>
 
   <body>
-    <header class="divider">
+    <header id="site-header" class="divider">
       <div class="logo">
         <img src="/images/noun_Tent_2517.svg" alt="tent image for logo" />
         <a href="index.html"> Sleep<span class="highlight">Outside</span></a>
@@ -45,6 +45,7 @@
         </a>
       </div>
     </header>
+
     <main class="divider">
       <div class="hero">
         <img
@@ -66,12 +67,31 @@
 
       <section class="products">
         <h2>Top Products</h2>
-        <ul class="product-list">
-          
-        </ul>
+        <ul class="product-list"></ul>
+      </section>
+
+      <!-- 🛒 Shopping Cart Section -->
+      <section class="cart-section">
+        <h2>Your Cart</h2>
+
+        <!-- Template for rendering cart items -->
+        <template id="cart-item-template">
+          <li class="cart-item">
+            <span class="cart-item-name"></span>
+            <span class="cart-item-qty"></span>
+            <span class="cart-item-price"></span>
+          </li>
+        </template>
+
+        <!-- Where the cart items will be injected -->
+        <ul id="cart-list"></ul>
+
+        <!-- Cart total -->
+        <p id="cart-total"></p>
       </section>
     </main>
-    <footer>
+
+    <footer id="site-footer">
       &copy;2025 ⛺ SleepOutside ⛺ WDD 330 ⛺ BYU-Idaho for BYU-Pathway
       Worldwide Online
     </footer>

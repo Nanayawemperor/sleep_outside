@@ -1,4 +1,14 @@
-import { getLocalStorage } from "./utils.mjs";
+import { getLocalStorage, loadHeaderFooter } from "./utils.mjs";
+import ShoppingCart from "./ShoppingCart.mjs";
+
+const cartElement = document.querySelector("#cart-list");
+const cart = new ShoppingCart("so-cart", cartElement);
+cart.renderCart();
+
+document.querySelector("#cart-total").textContent = 
+  `Total: $${cart.getTotal().toFixed(2)}`;
+
+loadHeaderFooter();
 
 function renderCartContents() {
   const cartItems = getLocalStorage("so-cart");
