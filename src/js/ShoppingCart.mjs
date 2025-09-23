@@ -15,8 +15,12 @@ export default class ShoppingCart {
     // clear before rendering
     this.listElement.innerHTML = "";
 
+    const footer = document.querySelector(".list-footer");
+    const totalElement = document.querySelector(".list-total");
+
     if (this.items.length === 0) {
       this.listElement.innerHTML = `<p>Your cart is empty.</p>`;
+      if(footer) footer.classList.add("hide");
       return;
     }
 
@@ -27,6 +31,13 @@ export default class ShoppingCart {
       "beforeend",
       true
     );
+     // Show total
+    if (footer) {
+        footer.classList.remove("hide");
+        if (totalElement) {
+          totalElement.textContent = `$${this.getTotal().toFixed(2)}`;
+    }
+    }
   }
 
   // Fill in template with item details
