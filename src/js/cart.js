@@ -1,12 +1,4 @@
 import { getLocalStorage, loadHeaderFooter } from "./utils.mjs";
-import ShoppingCart from "./ShoppingCart.mjs";
-
-const cartElement = document.querySelector("#cart-list");
-const cart = new ShoppingCart("so-cart", cartElement);
-cart.renderCart();
-
-document.querySelector("#cart-total").textContent = 
-  `Total: $${cart.getTotal().toFixed(2)}`;
 
 loadHeaderFooter();
 
@@ -17,12 +9,12 @@ function renderCartContents() {
 }
 
 function cartItemTemplate(item) {
-  const newItem = `<li class="cart-card divider">
-  <a href="#" class="cart-card__image">
+  const newItem = `<li class="cart-card divider>
+  <a href="#"                   class="cart-card__image">
     <img
       src="${item.Image}"
       alt="${item.Name}"
-    />
+      >
   </a>
   <a href="#">
     <h2 class="card__name">${item.Name}</h2>

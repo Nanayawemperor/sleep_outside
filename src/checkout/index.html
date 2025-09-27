@@ -1,11 +1,13 @@
 <!doctype html>
 
 <html lang="en">
+
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sleep Outside | Checkout</title>
-    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <script src="../js/checkout.js" type="module" defer></script>
   </head>
 
   <body>
@@ -15,6 +17,8 @@
         <h2>Review & Place your Order</h2>
         <section class="checkout-form">
           <form name="checkout">
+            <input type="hidden" name="orderDate" id="orderDate">
+
             <fieldset>
               <legend></legend>
               <div class="checkout__name">
@@ -34,6 +38,7 @@
                 <input type="text" name="zip" id="zip" required />
               </div>
             </fieldset>
+
             <fieldset>
               <legend>Payment</legend>
               <div class="checkout__payment">
@@ -45,8 +50,10 @@
                 <input type="text" name="cvv" id="cvv" required />
               </div>
             </fieldset>
+            
             <fieldset class="checkout-summary">
               <legend>Order Summary</legend>
+
               <div class="order__summary">
                 <div>Items</div>
                 <div id="numberItems"></div>
