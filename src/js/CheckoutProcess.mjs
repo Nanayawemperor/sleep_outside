@@ -1,11 +1,10 @@
 import { getLocalStorage } from "./utils.mjs";
-
 import ExternalServices from "./ExternalServices.mjs";
 
 const services = new ExternalServices();
 
+// Converts form data into a JSON object
 function formDataToJSON(formElement) {
-  // convert the form data to a JSON object
   const formData = new FormData(formElement);
   const convertedJSON = {};
   formData.forEach((value, key) => {
@@ -14,17 +13,14 @@ function formDataToJSON(formElement) {
   return convertedJSON;
 }
 
+// Simplify cart items to the required structure
 function packageItems(items) {
-  const simplifiedItems = items.map((item) => {
-    console.log(item);
-    return {
-      id: item.Id,
-      price: item.FinalPrice,
-      name: item.Name,
-      quantity: 1,
-    };
-  });
-  return simplifiedItems;
+  return items.map((item) => ({
+    id: item.Id,
+    price: item.FinalPrice,
+    name: item.Name,
+    quantity: 1,
+  }));
 }
 
 export default class CheckoutProcess {
@@ -44,35 +40,33 @@ export default class CheckoutProcess {
   }
 
   calculateItemSummary() {
-    // calculate and display the total amount of the items in the cart, and the number of items.
+    // calculate and display the total amount of the items in the cart
     const summaryElement = document.querySelector(
       this.outputSelector + " #cartTotal"
     );
     const itemNumElement = document.querySelector(
-      this.outputSelector + " #num-items"
+      this.outputSelector + " #numberItems"
     );
+
     itemNumElement.innerText = this.list.length;
-    // calculate the total of all the items in the cart
+
     const amounts = this.list.map((item) => item.FinalPrice);
-    this.itemTotal = amounts.reduce((sum, item) => sum + item);
-    summaryElement.innerText = `$${this.itemTotal}`;;
+    this.itemTotal = amounts.reduce((sum, item) => sum + item, 0);
+    summaryElement.innerText = `$${this.itemTotal.toFixed(2)}`;
   }
 
   calculateOrderTotal() {
-    // calculate the shipping and tax amounts. Then use them to along with the cart total to figure out the order total
-    this.tax = (this.itemTotal * .06);
+    // tax = 6% of subtotal
+    this.tax = this.itemTotal * 0.06;
+    // shipping = $10 + $2 for each additional item
     this.shipping = 10 + (this.list.length - 1) * 2;
-    this.orderTotal = (
-      parseFloat(this.itemTotal) +
-      parseFloat(this.tax) +
-      parseFloat(this.shipping)
-    )
-    // display the totals.
+    // total = subtotal + tax + shipping
+    this.orderTotal = this.itemTotal + this.tax + this.shipping;
+
     this.displayOrderTotals();
   }
 
   displayOrderTotals() {
-    // once the totals are all calculated display them in the order summary page
     const tax = document.querySelector(`${this.outputSelector} #tax`);
     const shipping = document.querySelector(`${this.outputSelector} #shipping`);
     const orderTotal = document.querySelector(`${this.outputSelector} #orderTotal`);
@@ -82,22 +76,32 @@ export default class CheckoutProcess {
     orderTotal.innerText = `$${this.orderTotal.toFixed(2)}`;
   }
 
-  async checkout() {
-    const formElement = document.forms["checkout"];
-    const order = formDataToJSON(formElement);
+  /**
+   * Called when the checkout form is submitted.
+   * Collects all form data, adds order details (totals, date, items),
+   * and sends the order to ExternalServices.
+   */
+  async checkout(form) {
+    // 1️⃣ Convert form data into a JSON object
+    const order = formDataToJSON(form);
 
+    // 2️⃣ Add computed order details
     order.orderDate = new Date().toISOString();
     order.orderTotal = this.orderTotal;
     order.tax = this.tax;
     order.shipping = this.shipping;
     order.items = packageItems(this.list);
-    //console.log(order);
 
+    // 3️⃣ Send the order data to the ExternalServices API
     try {
       const response = await services.checkout(order);
-      console.log(response);
+      console.log("Order successfully sent:", response);
+
+      // Optional: Clear cart or show confirmation
+      localStorage.removeItem(this.key);
+      alert("Order placed successfully!");
     } catch (err) {
-      console.log(err);
+      console.error("Checkout failed:", err);
     }
   }
 }
