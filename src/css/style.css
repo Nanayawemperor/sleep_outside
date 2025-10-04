@@ -330,3 +330,23 @@ footer {
   border-top: 1px solid var(--tertiary-color);
   padding: 1em;
 }
+
+.empty-cart {
+  text-align: center;
+  padding: 2rem;
+  list-style: none;
+}
+
+.empty-cart .button {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background: #333;
+  color: white;
+  border-radius: 5px;
+  text-decoration: none;
+}
+
+.list-footer.hide {
+  display: none;
+}
